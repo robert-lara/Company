@@ -1,5 +1,15 @@
 <nav>
-    <div (click)="logoClicked()">LOGO</div>
+    <div>
+        <div *ngIf="isMobileDevice">
+
+        </div>
+        <div>
+            LOGO 
+        </div>
+        <div *ngIf="isMobileDevice">
+            <fa-icon  [icon]="faBars" (click)="logoClicked()"></fa-icon>
+        </div>
+    </div>
     <div *ngIf="showNavigation">About</div>
     <div *ngIf="showNavigation">Documentation</div>
     <div *ngIf="showNavigation">Login</div>

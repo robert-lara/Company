@@ -7,21 +7,46 @@ nav{
     background-color: #000000;
 }
 
-nav div:first-child{
-    margin-top: 15px;
-}
-
-nav div{
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 15px;
-}
 
 
 
 @media (max-width: 768px) { 
 
 
+    nav div:first-child{
+        margin-top: 15px;
+        margin-bottom: 15px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
+
+    nav div div{
+        margin: 0px;
+        flex: 1;
+    }
+
+    nav div div:nth-child(2){
+        justify-content: center;
+        display: flex;
+    }
+
+    nav div div:nth-child(3){
+        display: flex;
+    }
+
+    nav div div:nth-child(3) fa-icon{
+        display: flex;
+        margin-left: auto;
+        margin-right: 15px;
+    }
+
+    nav div:not(:first-child){
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 15px;
+        
+    }
 
 }
 
@@ -44,7 +69,7 @@ nav div{
     }
 
     nav div:first-child{
-        margin-top: auto;
+        margin-top: 15px;
     }
     
     nav div:nth-last-child(2){

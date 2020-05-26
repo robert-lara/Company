@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-header',
@@ -11,22 +12,27 @@ import { Component, OnInit } from '@angular/core';
 export class HeaderComponent implements OnInit {
 
   showNavigation = true;
-  isMobileDevice = true;
+  isMobileDevice = false;
+  faBars = faBars;
   constructor() { 
   }
 
   ngOnInit(): void {
 
-    if (window.screen.width <= 375) {
+    if (window.screen.width <= 411) {
       this.isMobileDevice = true;
+      this.showNavigation = false;
     }else{
       this.isMobileDevice = false;
+      this.showNavigation = true;
     }
 
   }
 
   onResize(event){
-    if (window.screen.width <= 375) {
+
+    //Set to 411 to cover iPhones and Pixels
+    if (window.screen.width <= 411) {
       this.isMobileDevice = true;
       this.showNavigation = false;
     }else{
