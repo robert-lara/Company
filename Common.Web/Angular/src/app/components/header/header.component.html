@@ -12,6 +12,6 @@
     </div>
     <div *ngIf="showNavigation" @listItemAnimation>About</div>
     <div *ngIf="showNavigation"  @listItemAnimation>Documentation</div>
-    <div *ngIf="showNavigation"  @listItemAnimation>Login</div>
-    <div *ngIf="showNavigation"  @listItemAnimation>Register</div>
+    <div *ngIf="showNavigation"  @listItemAnimation><a routerLink="/login" >LOGIN</a></div>
+    <div *ngIf="showNavigation"  @listItemAnimation><a routerLink="/register">REGISTER</a></div>
 </nav>

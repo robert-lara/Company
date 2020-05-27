@@ -1,3 +1,7 @@
+html{
+    height: 100%;
+}
+
 body  {
     background: url("./assets/images/graph-background.jpg") no-repeat center center fixed; 
     -webkit-background-size: cover;
@@ -8,4 +12,5 @@ body  {
     color:#FFFFFF;
     margin: 0px;
     padding: 0px;
+    height: 100%;
 }
