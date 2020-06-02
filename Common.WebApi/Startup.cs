@@ -72,6 +72,8 @@ namespace Common.WebApi
 
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
+
+            services.AddSwaggerDocument();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext applicationDbContext)
@@ -99,6 +101,10 @@ namespace Common.WebApi
             });
 
             _ = applicationDbContext.Database.EnsureCreated();
+
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
+
         }
     }
 }
