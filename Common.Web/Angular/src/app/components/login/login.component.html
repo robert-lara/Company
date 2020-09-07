@@ -3,12 +3,12 @@
         <h2>Login</h2>
     </div>
     <div>
-        <input type="email" placeholder="email" />
+        <input type="email" placeholder="email" [(ngModel)]="authenticate.username" />
     </div>
     <div>
-        <input type="text" placeholder="password" />
+        <input type="text" placeholder="password" [(ngModel)]="authenticate.password" />
     </div>
     <div>
-        <button type="button">SUBMIT</button> 
+        <button type="button" (click)="login()">SUBMIT</button> 
     </div>
 </div>

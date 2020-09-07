@@ -78,7 +78,7 @@ namespace Common.WebApi.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("authenticate")]
+        [HttpPost("Authenticate")]
         public IActionResult Authenticate([FromBody] Authenticate model)
         {
             var user = _userService.Authenticate(model.Username, model.Password);
