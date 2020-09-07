@@ -1,36 +1,38 @@
 import { Component, OnInit } from '@angular/core';
-import {Authenticate, UsersClient} from '../../services/webserviceproxy'
-import { ResponseAdapter } from 'src/app/helpers/responseadapter';
+import {Authenticate, UsersService, FileResponse} from '../../services/webserviceproxy'
+import { Observable, of } from 'rxjs';
 
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  providers: [UsersClient]
+  providers: [UsersService]
 })
 export class LoginComponent implements OnInit {
 
   authenticate: Authenticate = new Authenticate();
 
-  constructor(private userClient: UsersClient) { }
+  constructor(private usersService: UsersService) { }
 
   ngOnInit(): void {
   }
 
   login(){
-    
-    this.userClient.authenticate(this.authenticate).subscribe(result => {
+
+    this.usersService.authenticate(this.authenticate).subscribe(response => {
       let reader = new FileReader();
       reader.onload = function() {
-        let errorMessage = JSON.parse(this.result.toString());
-        console.log(errorMessage.token)
+        let message = JSON.parse(this.result.toString());
+        console.log(message);
+        return message;
       };
-      reader.readAsText(result.data)
-
+      reader.readAsText(response.data)
     }, (error) => {
       let errorMessage = JSON.parse(error.response);
-      console.log(errorMessage.message);
+      if(error.status === 401){
+        alert("Username or Password is incorrect");
+      }
     });
     
   }
