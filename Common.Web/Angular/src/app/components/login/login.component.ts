@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Authenticate, UsersClient} from '../../services/webserviceproxy'
+import { ResponseAdapter } from 'src/app/helpers/responseadapter';
 
 
 @Component({
@@ -19,11 +20,17 @@ export class LoginComponent implements OnInit {
 
   login(){
     
-    console.log(this.authenticate)
     this.userClient.authenticate(this.authenticate).subscribe(result => {
-      console.log(result);
+      let reader = new FileReader();
+      reader.onload = function() {
+        let errorMessage = JSON.parse(this.result.toString());
+        console.log(errorMessage.token)
+      };
+      reader.readAsText(result.data)
+
     }, (error) => {
-      console.log(error);
+      let errorMessage = JSON.parse(error.response);
+      console.log(errorMessage.message);
     });
     
   }
