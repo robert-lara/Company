@@ -270,7 +270,10 @@ export class UsersService {
         return _observableOf<void>(<any>null);
     }
 
-    authenticate(model: Authenticate): Observable<FileResponse | null> {
+    /**
+     * @return or
+     */
+    authenticate(model: Authenticate): Observable<any> {
         let url_ = this.baseUrl + "/Users/Authenticate";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -282,7 +285,7 @@ export class UsersService {
             responseType: "blob",
             headers: new HttpHeaders({
                 "Content-Type": "application/json",
-                "Accept": "application/octet-stream"
+                "Accept": "application/json"
             })
         };
 
@@ -293,31 +296,33 @@ export class UsersService {
                 try {
                     return this.processAuthenticate(<any>response_);
                 } catch (e) {
-                    return <Observable<FileResponse | null>><any>_observableThrow(e);
+                    return <Observable<any>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<FileResponse | null>><any>_observableThrow(response_);
+                return <Observable<any>><any>_observableThrow(response_);
         }));
     }
 
-    protected processAuthenticate(response: HttpResponseBase): Observable<FileResponse | null> {
+    protected processAuthenticate(response: HttpResponseBase): Observable<any> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<FileResponse | null>(<any>null);
+        return _observableOf<any>(<any>null);
     }
 }
 
@@ -411,6 +416,46 @@ export class Role implements IRole {
 export interface IRole {
     id: number;
     name?: string | undefined;
+}
+
+export class AuthenticatedUser implements IAuthenticatedUser {
+    username?: string | undefined;
+    token?: string | undefined;
+
+    constructor(data?: IAuthenticatedUser) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.username = _data["username"];
+            this.token = _data["token"];
+        }
+    }
+
+    static fromJS(data: any): AuthenticatedUser {
+        data = typeof data === 'object' ? data : {};
+        let result = new AuthenticatedUser();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["username"] = this.username;
+        data["token"] = this.token;
+        return data; 
+    }
+}
+
+export interface IAuthenticatedUser {
+    username?: string | undefined;
+    token?: string | undefined;
 }
 
 export class Authenticate implements IAuthenticate {

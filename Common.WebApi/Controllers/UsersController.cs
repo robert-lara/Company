@@ -7,6 +7,7 @@ using Common.WebApi.Models;
 using Common.WebApi.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NSwag.Annotations;
 
 namespace Common.WebApi.Controllers
 {
@@ -79,12 +80,14 @@ namespace Common.WebApi.Controllers
 
         [AllowAnonymous]
         [HttpPost("Authenticate")]
+        [SwaggerResponse(typeof(AuthenticatedUser))]
+        [SwaggerResponse(typeof(UnauthorizedObjectResult))]
         public IActionResult Authenticate([FromBody] Authenticate model)
         {
             var user = _userService.Authenticate(model.Username, model.Password);
 
             if (user == null)
-                return Unauthorized();
+                return Unauthorized("Username or Password is incorrect");
 
             var authenticatedUser = new AuthenticatedUser()
             {

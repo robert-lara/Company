@@ -21,15 +21,8 @@ export class LoginComponent implements OnInit {
   login(){
 
     this.usersService.authenticate(this.authenticate).subscribe(response => {
-      let reader = new FileReader();
-      reader.onload = function() {
-        let message = JSON.parse(this.result.toString());
-        console.log(message);
-        return message;
-      };
-      reader.readAsText(response.data)
+      console.log(response);
     }, (error) => {
-      let errorMessage = JSON.parse(error.response);
       if(error.status === 401){
         alert("Username or Password is incorrect");
       }
