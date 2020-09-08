@@ -10,8 +10,7 @@
             <fa-icon  [icon]="faBars" (click)="logoClicked()"></fa-icon>
         </div>
     </div>
-    <div *ngIf="showNavigation" @listItemAnimation>About</div>
-    <div *ngIf="showNavigation"  @listItemAnimation>Documentation</div>
+    <div *ngIf="showNavigation" @listItemAnimation><a  routerLink="/report">Report</a></div>
     <div *ngIf="showNavigation"  @listItemAnimation><a routerLink="/login" >LOGIN</a></div>
     <div *ngIf="showNavigation"  @listItemAnimation><a routerLink="/register">REGISTER</a></div>
 </nav>

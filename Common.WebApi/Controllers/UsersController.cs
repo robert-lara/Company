@@ -91,7 +91,7 @@ namespace Common.WebApi.Controllers
 
             var authenticatedUser = new AuthenticatedUser()
             {
-                Username = user.Username,
+                UserId = user.Id,
                 Token = user.Token
 
             };

@@ -419,7 +419,7 @@ export interface IRole {
 }
 
 export class AuthenticatedUser implements IAuthenticatedUser {
-    username?: string | undefined;
+    userId!: number;
     token?: string | undefined;
 
     constructor(data?: IAuthenticatedUser) {
@@ -433,7 +433,7 @@ export class AuthenticatedUser implements IAuthenticatedUser {
 
     init(_data?: any) {
         if (_data) {
-            this.username = _data["username"];
+            this.userId = _data["userId"];
             this.token = _data["token"];
         }
     }
@@ -447,14 +447,14 @@ export class AuthenticatedUser implements IAuthenticatedUser {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["username"] = this.username;
+        data["userId"] = this.userId;
         data["token"] = this.token;
         return data; 
     }
 }
 
 export interface IAuthenticatedUser {
-    username?: string | undefined;
+    userId: number;
     token?: string | undefined;
 }
 

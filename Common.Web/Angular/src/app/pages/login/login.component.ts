@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Authenticate, UsersService, FileResponse} from '../../services/webserviceproxy'
+import {Authenticate, UsersService, FileResponse, AuthenticatedUser} from '../../services/webserviceproxy'
 import { Observable, of } from 'rxjs';
 
 
@@ -21,8 +21,8 @@ export class LoginComponent implements OnInit {
   login(){
 
     this.usersService.authenticate(this.authenticate).subscribe(response => {
-      console.log(response);
       sessionStorage.setItem('token', response.token);
+      sessionStorage.setItem('userId', response.userId);
     }, (error) => {
       if(error.status === 401){
         alert("Username or Password is incorrect");
