@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
 
     this.usersService.authenticate(this.authenticate).subscribe(response => {
       console.log(response);
+      sessionStorage.setItem('token', response.token);
     }, (error) => {
       if(error.status === 401){
         alert("Username or Password is incorrect");
